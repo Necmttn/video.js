@@ -1,302 +1,469 @@
-# CONTRIBUTING
+# Contributor Guide
 
-So you want to help out? Great! There's a number of ways you can get involved.
+First off, thank you for taking the time to contribute to **Video.js 10** ❤️
+Your input helps shape the next generation of open web media players.
 
-## Table of Contents
+Video.js is a free and open source library, and we appreciate any help you're willing to give - whether it's fixing bugs, improving documentation, or suggesting new features. Contributions and project decisions are overseen by the
+[Video.js Technical Steering Committee (TSC)][vjs-gov].
 
-* [Other repositories where issues could be filed](#other-repositories-where-issues-could-be-filed)
-* [Filing issues](#filing-issues)
-  * [Reporting a Bug](#reporting-a-bug)
-  * [Requesting a Feature](#requesting-a-feature)
-  * [Labels](#labels)
-* [Contributing code](#contributing-code)
-  * [Building video.js locally](#building-videojs-locally)
-    * [Forking and cloning the repository](#forking-and-cloning-the-repository)
-    * [Installing local dependencies](#installing-local-dependencies)
-    * [Running tests](#running-tests)
-    * [Building videojs](#building-videojs)
-    * [Testing Locally](#testing-locally)
-    * [Sandbox test directory](#sandbox-test-directory)
-    * [Running a local web server](#running-a-local-web-server)
-    * [Watching source and test changes](#watching-source-and-test-changes)
-  * [Making Changes](#making-changes)
-    * [Step 1: Verify](#step-1-verify)
-    * [Step 2: Update remote](#step-2-update-remote)
-    * [Step 3: Branch](#step-3-branch)
-    * [Step 4: Commit](#step-4-commit)
-    * [Step 5: Test](#step-5-test)
-    * [Step 6: Push](#step-6-push)
-  * [Code Style Guide](#code-style-guide)
-* [Developer's Certificate of Origin 1.1](#developers-certificate-of-origin-11)
-* [Doc Credit](#doc-credit)
+[vjs-gov]: https://github.com/videojs/admin/blob/main/GOVERNANCE.md
 
-## Other repositories where issues could be filed
+## 🎒 Contributing code
 
-There's also other Video.js projects where you can help. (check the [video.js org](https://github.com/videojs) for an up-to-date list of projects)
+Video.js 10 is set up a monorepo using [`pnpm` workspaces](https://pnpm.io/workspaces). As such, most scripts run will be done from the project/workspace root. Unless otherwise specified, assume commands and similar should be run from the root directory.
 
-* [Videojs.com](https://github.com/videojs/videojs.com)
-* [HLS](https://github.com/videojs/videojs-contrib-hls)
-* [DASH](https://github.com/videojs/videojs-contrib-dash)
-* [Youtube Tech](https://github.com/videojs/videojs-youtube)
-* [Vimeo Tech](https://github.com/videojs/videojs-vimeo)
-* [Ads](https://github.com/videojs/videojs-contrib-ads)
-* [Plugin generator](https://github.com/videojs/generator-videojs-plugin)
-* [Linter][linter]
+> [!TIP]
+> This repo includes tooling for AI-assisted development. See [Using AI](#using-ai).
 
-## Filing issues
+### Getting Your Machine Ready
 
-[GitHub Issues](https://github.com/videojs/video.js/issues) are used for all discussions around the codebase, including **bugs**, **features**, and other **enhancements**.
+You’ll need the following installed:
 
-When filling out an issue, please respond to all of the questions in the template, including as much information as possible.
+- [Node.js](https://nodejs.org/en/download) (≥ 22.22.0)
+- [Git](https://git-scm.com/downloads)
+- [PNPM](https://pnpm.io/installation) (≥ 12.3.4)
+- [mise](https://mise.jdx.dev), or [NVM](https://github.com/nvm-sh/nvm)
+- [Claude Code](https://docs.anthropic.com/en/docs/claude-code) (optional, for AI-assisted development)
 
-### Reporting a Bug
+> [!TIP]
+> PNPM will automatically use the correct Node version when running scripts.
+> If you prefer NVM: after installing it, simply run `nvm use` in the repo root. NVM keeps global
+> packages per Node version, so after switching to a new version reinstall pnpm at the version
+> `package.json`'s `packageManager` names: `npm i -g pnpm@<version>`.
+> If you prefer mise: see [Using mise](#-using-mise-optional) — it manages pnpm for you too.
 
-**A bug is a demonstrable problem** that is caused by the code in the repository. Good bug reports are extremely helpful. Thank You!
+### ⬇️ Fork & Clone
 
-Guidelines for bug reports:
-
-1. If your issue is with a particular video.js plugin or subproject, please open an issue against that project. See [list of some potential other projects above](#other-repositories-where-issues-could-be-filed)
-1. Use the [GitHub issue search](https://github.com/videojs/video.js/issues) — check if the issue has already been reported.
-1. Check if the issue has already been fixed — try to reproduce it using the latest `main` branch in the repository.
-1. Isolate the problem — **create a [reduced test case](https://css-tricks.com/reduced-test-cases/)** with a live example. You can possibly use [this codepen template](https://codepen.io/gkatsev/pen/GwZegv?editors=1000#0) as a starting point -- don't forget to update it to the videojs version you use.
-1. Answer all questions in the [issue template][]. The questions in the issue template are designed to try and provide the maintainers with as much information possible to minimize back-and-forth to get the issue resolved.
-
-A good bug report should be as detailed as possible, so that others won't have to follow up for the essential details.
-
-**[File a bug report](https://github.com/videojs/video.js/issues/new)**
-
-### Requesting a Feature
-
-1. [Check the plugin list](https://videojs.com/plugins/) for any plugins that may already support the feature.
-1. [Search the issues](https://github.com/videojs/video.js/issues) for any previous requests for the same feature, and give a thumbs up or +1 on existing requests.
-1. If no previous requests exist, create a new issue. Please be as clear as possible about why the feature is needed and the intended use case.
-1. Once again, be as details as possible and follow the [issue template][]
-
-**[Request a feature](https://github.com/videojs/video.js/issues/new)**
-
-### Labels
-
-There are a few labels that might be added to your issue or PR by a maintainer. Here's a quick rundown of what they mean:
-
-| Label                    | Issue or PR  | Description                                                                                                                                              |
-| ------------------------ | ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| confirmed                | Issue and PR | Issue: marks as reproducible by a maintainer. PR: marked by a maintainer as ready to be merged                                                           |
-| 5.x                      | PR           | Marks as a change to the 5.x branch only                                                                                                                 |
-| bug                      | Issue        | Marks as a confirmed bug by a maintainer                                                                                                                 |
-| good first issue         | Issue        | Marked as a good bug or enhancement for first time contributors to Video.js                                                                              |
-| first-timers-only        | Issue        | Marked as a good bug or enhancement to be done by a newcomer to open source                                                                              |
-| minor, patch, major      | PR           | Marks PR with the expected [semver](https://semver.org/) classification of the change                                                                    |
-| needs: more info         | Issue        | Marked by a maintainer as needing more information from the issue reporter. Please update your issue with more information to help us reproduce the bug. |
-| needs: reduced test case | Issue        | Marked by a maintainer as needing a reduced test case from the issue reporter. Please create a test page that we can inspect to help us identify a bug.  |
-
-## Contributing code
-
-To contribute code you'll need to be able to build a copy of Video.js and run tests locally. There are a few requirements before getting started.
-
-* Node.js
-  Video.js uses Node for build and test automation. Node is available for Windows, Mac OS X, Linux, and SunOS, as well as source code if that doesn't scare you. [Download and install Node.js](http://nodejs.org/download/)
-
-### Building video.js locally
-
-#### Forking and cloning the repository
-
-First, [fork](http://help.github.com/fork-a-repo/) the video.js git repository. At the top of every GitHub page, there is a Fork button. Click it, and the forking process will copy Video.js into your own GitHub account.
-
-Clone your fork of the repo into your code directory
+1. [Fork on GitHub][vjs-gh].
+2. Clone your fork locally and set up upstream tracking:
 
 ```sh
-git clone https://github.com/<your-username>/video.js.git
-```
-
-Navigate to the newly cloned directory
-
-```sh
+git clone https://github.com/{your-github-username}/video.js.git
 cd video.js
+
+git remote add upstream git@github.com:videojs/video.js.git
+git fetch upstream
+git branch --set-upstream-to=upstream/main main
 ```
 
-Assign the original repo to a remote called "upstream"
+To update your local main branch later:
 
 ```sh
-git remote add upstream https://github.com/videojs/video.js.git
-```
-
-> In the future, if you want to pull in updates to video.js that happened after you cloned the main repo, you can run:
->
-> ```sh
-> git remote update
-> git checkout main
-> git pull upstream main
-> ```
-
-#### Installing local dependencies
-
-Install the required node.js modules using node package manager
-
-```sh
-npm install
-```
-
-> A note to Windows developers: If you run npm commands, and you find that your command prompt colors have suddenly reversed, you can configure npm to set color to false to prevent this from happening.
-> `npm config set color false`
-> Note that this change takes effect when a new command prompt window is opened; the current window will not be affected.
-
-#### Running tests
-
-Tests can be run either from the shell or from the browser.
-
-To run the tests from the shell, just run
-
-```sh
-npm test
-```
-
-This will build video.js locally and run the test suite using [Karma](https://karma-runner.github.io/1.0/index.html), which runs our tests in actual browsers.
-
-To run tests from the browser, first start a local server with `npm start` (this also watches for changes and rebuilds video.js and the test files as necessary). Then navigate to `http://localhost:9999/test`, and you'll see a page that displays the results of all the tests. To rerun the tests after making changes, just refresh the page. To run an individual test, click the "Rerun" link next to the test's title.
-
-#### Building videojs
-
-To build video.js, simply run
-
-```sh
-npm run build
-```
-
-This outputs an `es5/` and `dist/` folder. The `es5/` folder is used by bundling tools like browserify and webpack to package video.js into projects. The `dist/` folder has pre-compiled versions of video.js, including a minified version and the CSS file. This file can be included in page via a `<script></script>` tag.
-
-#### Testing Locally
-
-Besides running automated tests, you often want to run video.js manually and play around with things as you're developing. A few things are provided to make it easier.
-
-#### Sandbox test directory
-
-There's a sandbox directory where you can add any file and it won't get tracked in git. To start you can copy the example index file.
-
-```sh
-cp sandbox/index.html.example sandbox/index.html
-```
-
-See [the following section](#running-a-local-web-server) for how to open the page in a browser.
-
-#### Running a local web server
-
-This ties in nicely with the sandbox directory. You can always open the `sandbox/index.html` file directly but in some cases it may not work properly.
-
-> To get around this you must use a local web server.
-
-To run the local webserver:
-
-```sh
-npm start
-open http://localhost:9999/sandbox/index.html
-```
-
-The latter does some extra work which will be described in the next section.
-
-#### Watching source and test changes
-
-As you're developing, you want the build to re-run and update itself, and potentially re-run the tests. In addition, you want to launch a local web-server that you can open the `sandbox` directory in.
-To do so, you just need to run
-
-```sh
-npm start
-```
-
-This sets up the local webserver using connect and then watches source files, test files, and CSS files for you and rebuilds things as they happen.
-
-### Making Changes
-
-#### Step 1: Verify
-
-Whether you're adding something new, making something better, or fixing a bug, you'll first want to search the [GitHub issues](https://github.com/videojs/video.js/issues) and [plugins list](https://github.com/videojs/video.js/wiki/Plugins) to make sure you're aware of any previous discussion or work. If an unclaimed issue exists, claim it via a comment. If no issue exists for your change, submit one, following the [issue filing guidelines](#filing-issues).
-
-#### Step 2: Update remote
-
-Before starting work, you want to update your local repository to have all the latest changes.
-
-```sh
-git remote update
+git fetch upstream
 git checkout main
-git rebase upstream/main
+git pull upstream main
 ```
 
-#### Step 3: Branch
+### ⚙️ Setup
 
-You want to do your work in a separate branch.
+```sh
+pnpm install
+```
+
+This also exposes the checked-in `.agents/skills/` catalog through generated `.claude/skills/` and `.opencode/skills/` directory aliases. `AGENTS.md` is the canonical project guide; Claude's `CLAUDE.md` imports it.
+
+> [!NOTE]
+> **Windows users:** Directory aliases use junctions and work without Developer Mode. If alias creation fails, `pnpm install` logs a warning and continues; the checked-in domain folders remain available.
+
+Then build all workspace packages:
+
+```sh
+pnpm build:packages
+```
+
+> ℹ️ **VS Code Users:** the project may suggest extensions to enhance the developer
+> experience.
+> If imports like `react` are not resolving, set your TS version to the workspace one:
+> `CMD/CTRL + Shift + P` → `TypeScript: Select TypeScript Version` → _Use Workspace Version_.
+
+### 🧰 Using mise (optional)
+
+[mise](https://mise.jdx.dev) is an alternative to Volta/NVM that manages **both** Node and pnpm from the checked-in [`mise.toml`](./mise.toml).
+
+```sh
+mise trust        # once per clone; mise only reads configs you've trusted
+mise install      # provisions Node (from .nvmrc) and pnpm
+mise run setup    # pnpm install + pnpm build:packages
+```
+
+`mise.toml` also puts the workspace's `node_modules/.bin` on `PATH`, so `biome`, `turbo`, and `tsgo` can be run directly rather than through `pnpm exec`.
+
+Everything else stays as documented below: use the `pnpm` scripts, not mise tasks. Personal additions, such as extra tools, environment variables, belong in a gitignored `mise.local.toml` or `.env.local` and not in the shared config.
+
+One exception: `apps/react-native` has its own `mise.toml` for the native toolchains (JDK, Ruby, CocoaPods), and there mise is not optional. See [its README](./apps/react-native/README.md#prerequisites).
+
+### 🏗 Building & Development
+
+To run the workspace in development mode:
+
+```sh
+pnpm dev
+```
+
+This will run the entire workspace in developer mode, meaning all applications (examples and website) will also be started on their respective ports.
+
+`pnpm dev` and `pnpm dev:packages` prepare package outputs, then watch development JavaScript and CSS only to reduce memory use. Restart either task or run `pnpm build:packages` to refresh type declarations and production outputs. Use Ctrl+C to stop the servers and watchers; interactive watcher shortcuts are disabled.
+
+```sh
+pnpm dev:site       # just the documentation site
+pnpm dev:packages   # just the library packages (no apps)
+pnpm dev:sandbox    # just the sandbox playground
+```
+
+See [Manual Testing with the Sandbox](#-manual-testing-with-the-sandbox) for how to use the sandbox to exercise player changes in the browser.
+
+Sometimes you may want to do (non-dev) builds, say, to validate the full build process or evaluate production artifacts.
+
+```sh
+pnpm build:packages
+```
+
+To build the sandbox (and its package dependencies):
+
+```sh
+pnpm build:sandbox
+```
+
+To build all workspace packages and applications:
+
+```sh
+pnpm build
+```
+
+### 🧹 Style & Linting
+
+We use [Vite+](https://viteplus.dev/) with Oxlint and Oxfmt for linting and formatting. Between IDE integration, pre-commit hooks, and manual CLI fixes, many issues should get caught automatically.
+
+To ensure your code follows our lint rules with:
+
+```sh
+pnpm lint                    # check the whole workspace
+pnpm lint:fix                # check and auto-fix the whole workspace
+pnpm lint:fix:file <file>    # check and auto-fix a single file
+```
+
+Vite+ pre-commit hooks automatically check and fix staged files.
+
+### 🔎 Typechecking
+
+We use TypeScript project references for fast, incremental typechecking across the workspace:
+
+```sh
+pnpm typecheck
+```
+
+> [!TIP]
+> Typecheck runs against built `.d.ts` files. If you add or change exported types in a package, run `pnpm -F <pkg> build` first so the new declarations are emitted before typechecking.
+
+### 🧪 Testing
+
+We use [Vitest](https://vitest.dev) for unit testing.
+
+```sh
+pnpm test                    # all workspace tests
+pnpm -F core test            # just core package
+pnpm -F core test:watch      # watch core package
+```
+
+#### E2E Tests
+
+We use [Playwright](https://playwright.dev) for end-to-end testing. The E2E tests live in `apps/e2e/` and run against a Vite-based test app that hosts the player in multiple configurations (HTML, React, editable skin layouts, CDN bundles).
+
+Playwright browsers and system dependencies are installed automatically during `pnpm install`. On Linux without sudo, browsers will install but system deps will be skipped with a note. If e2e tests fail due to missing system dependencies, install them manually:
+
+```sh
+sudo pnpm test:e2e:install
+```
+
+**Running tests:**
+
+```sh
+pnpm test:e2e                    # Chromium + WebKit (all engines)
+pnpm test:e2e:vite               # Chromium only (fast feedback)
+```
+
+**Visual snapshot tests** verify that skin CSS and layout aren't broken. If a snapshot test fails, it means the rendered skin looks different from the baseline. This could mean:
+
+1. **You intentionally changed the skin** — update the baselines:
+   ```sh
+   pnpm test:e2e:update
+   ```
+   Review the updated PNGs in `apps/e2e/tests/visual/` to confirm they look correct, then commit them.
+
+2. **You didn't intend to change the skin** — the failure caught a real regression. Inspect the diff in the Playwright HTML report:
+   ```sh
+   pnpm --dir apps/e2e report
+   ```
+   The report shows expected vs. actual vs. diff images side-by-side.
+
+> [!TIP]
+> Snapshot baselines are checked into git. When you update them, review the PNG diffs in your PR to make sure the visual changes are intentional.
+
+### 🏖 Manual Testing with the Sandbox
+
+The sandbox (`apps/sandbox/`) is a Vite playground for manually exercising player changes in a browser. The root URL renders an interactive shell — a navbar with dropdowns for platform, preset, skin, styling, and source — that previews the selected combination in an iframe. One-off templates outside the main matrix are reachable by navigating directly to `/<template-name>/`. See `apps/sandbox/templates/` for the full list.
+
+```sh
+pnpm dev:sandbox                 # sandbox + workspace package watch
+pnpm dev                         # also runs the docs site
+```
+
+Sandbox code lives in two parallel directories:
+
+- **`apps/sandbox/templates/`** — source of truth, checked into git.
+- **`apps/sandbox/src/`** — your scratch copy, fully gitignored.
+
+On `pnpm dev:sandbox`, `setup.ts` copies any file from `templates/` that doesn't already exist in `src/`. Existing files in `src/` are never overwritten, so your local changes persist across restarts.
+
+> [!IMPORTANT]
+> Because `src/` is gitignored, edits you make there will not appear in `git status`. When you want to promote a sandbox change into the repo, run `pnpm -F @videojs/sandbox sync` — it shows a diff of every changed file and prompts before copying `src/` → `templates/`. To throw away local edits and restore from templates, run `pnpm -F @videojs/sandbox reset`.
+
+See [`apps/sandbox/README.md`](./apps/sandbox/README.md) for the full model, including the `app/` shell, the `@app/*` alias for shared code, and how to add a new sandbox entry point.
+
+### 🚚 Preview Releases
+
+Pull requests and commits on `main` publish an installable preview of the public packages to [pkg.pr.new][pkg-pr-new] — nothing is published to npm. A bot comment on the PR lists the install commands, and the same URLs work by commit SHA:
+
+```sh
+pnpm add https://pkg.pr.new/@videojs/html@<pr-number-or-sha>
+```
+
+Use this to try a change in a real project before it is released. Previews are versioned `0.0.0-preview-<sha>` so they can never satisfy a semver range for a real release, and they ship without the bundled markdown docs that real releases include.
+
+Because a preview is an installable artifact carrying the Video.js name, it is only published for code someone with repository access pushed or vouched for. Pull requests from a branch in this repo publish automatically; **pull requests from a fork publish only once a maintainer approves them**. The approval has to be written against the pull request's latest commit, so any new commit needs a fresh approval before it is published.
+
+### 🚀 Releases
+
+This section is for maintainers. Releases run from [`.github/workflows/cd.yml`](./.github/workflows/cd.yml) in the `production` environment:
+
+1. [release-please][release-please] keeps a release PR open on `main`, built from conventional commits. Merging it tags the release.
+2. The same run builds the packages, CDN bundles, and site, then publishes every public package under `packages/` to npm. Stable versions go to `latest`; prereleases go to `next`.
+3. It attaches the CDN archive to the `@videojs/cdn` GitHub release and updates the `site/v10` branch.
+
+#### npm trusted publishing
+
+The publish step authenticates with [npm trusted publishing][npm-trusted-publishing] (OIDC); there is no npm token. Every public package needs a GitHub Actions trusted publisher for repository `videojs/video.js`, workflow `cd.yml`, environment `production`, with publish permission. If the Publish step logs `ERR_PNPM_AUTH_TOKEN_EXCHANGE ... (status code 404)` and then fails with `404 Not Found`, that package's trusted publisher is missing, expired, or doesn't match.
+
+Each public package's **Publishing access** should be "Require two-factor authentication and disallow tokens", which npm [recommends][npm-trusted-publishing-access] alongside trusted publishing: OIDC publishes keep working, and long-lived tokens can't publish. Set it once a new package has its trusted publisher, either under the package's **Settings** on npmjs.com or with `npm access set mfa=publish <package>`. npm asks for 2FA on each change.
+
+To add or repair trusted publishers, log in with an npm account that has 2FA and write access to the packages, then run:
+
+```sh
+npm login
+pnpm release:trust --dry-run   # show each package's current trusted publisher
+pnpm release:trust             # add missing ones and replace mismatched ones
+```
+
+npm asks for 2FA to read trusted publishers as well as change them, so `--dry-run` prompts too. When npm's website offers "skip two-factor authentication for the next 5 minutes", tick it to get through the batch. Pass package names to limit the run, and add `--force` to replace configurations that look correct but are still rejected. The script only replaces trusted publishers for `cd.yml`; publishers for other workflows, such as the Video.js 8 release, are left alone.
+
+> [!IMPORTANT]
+> npm can't attach a trusted publisher to a package that doesn't exist yet. When you add a new public package, run `pnpm release:trust` before merging the release PR that first includes it. The script publishes a deprecated `0.0.0-placeholder` version to claim the name, and the release then publishes the real version over `latest`.
+>
+> The release PR's **npm trusted publishing** status fails while any public package isn't on npm, and its workflow summary lists the command to run. Once you've run it, re-run the failed `trusted-publishing` job in the Release PR workflow. The check can't read trusted publisher settings (that needs npm 2FA), so it doesn't catch expired or mismatched ones; `pnpm release:trust --dry-run` does.
+
+#### Recovering a failed publish
+
+If publishing fails after release-please has tagged the release, fix the cause, then run the Deployment workflow from `main` with the released version:
+
+```sh
+gh workflow run cd.yml --ref main -f recover_version=<version>
+```
+
+`pnpm publish` skips versions already on npm, so a partial publish resumes where it stopped. Recovery only accepts the current release, and it refuses to run once `packages/` or `site/` have changed on `main` since the tag. In that case, ship the fix in the next release instead.
+
+### ✅ Workspace Consistency
+
+Before opening a PR, run the workspace consistency check to catch common mistakes (CI coverage, scope mismatches, broken define imports, etc.):
+
+```sh
+pnpm check:workspace
+```
+
+### 📦 Dependencies
+
+To add a dependency to a specific package, you can use [`pnpm` filtering][pnpm-filtering] from the workspace root:
+
+```sh
+pnpm -F <scope> add <package>
+# Example:
+pnpm -F react add @floating-ui/react-dom
+```
+
+To upgrade a dependency across all packages:
+
+```sh
+pnpm up <package>@<version> -r
+```
+
+> [!CAUTION]
+> We try to be very intentional with any dependencies we add to this project. This is true of both developer/tooling dependencies and especially package-level (source) dependencies. If you find yourself needing to add a dependency, we strongly encourage you to check in with the core maintainers before proceeding to avoid wasted time and effort for everyone involved (yourself included!).
+
+[pnpm-filtering]: https://pnpm.io/filtering
+[pkg-pr-new]: https://github.com/stackblitz-labs/pkg.pr.new
+[release-please]: https://github.com/googleapis/release-please
+[npm-trusted-publishing]: https://docs.npmjs.com/trusted-publishers
+[npm-trusted-publishing-access]: https://docs.npmjs.com/trusted-publishers#recommended-restrict-token-access-when-using-trusted-publishers
+
+## Using AI
+
+Video.js 10 includes portable tooling for AI-assisted development. Read [`AGENTS.md`](./AGENTS.md) for repo-wide conventions and source routing; Claude Code imports it through [`CLAUDE.md`](./CLAUDE.md).
+
+### Slash Commands
+
+| Command          | Purpose                                           |
+| ---------------- | ------------------------------------------------- |
+| `/commit-pr`     | Commit changes and create/update a PR             |
+| `/review-branch` | Review changes in the current branch              |
+| `/investigate-issue <n>` | Analyze an issue and generate a plan       |
+| `/create-issue`  | Create a GitHub issue following repo conventions  |
+| `/maintain-agent-docs` | Update agent guidance and skills             |
+| `/create-skill`  | Scaffold a new skill                              |
+
+### Skills
+
+Focused workflows live as direct children of `.agents/skills/`; host-specific discovery paths are generated aliases. A few of the most-used skills:
+
+| Skill                    | Use When                                                |
+| ------------------------ | ------------------------------------------------------- |
+| `design-api`             | Designing public APIs and TypeScript contracts          |
+| `review-api`             | Auditing API and architecture changes                   |
+| `create-html-component`  | Building custom-element UI components                   |
+| `create-react-component` | Building React UI components                            |
+| `implement-ui-transition`| Implementing UI transition and rendered-presence logic  |
+| `review-html-component`  | Reviewing custom-element component architecture         |
+| `review-react-component` | Reviewing React component architecture                  |
+| `write-html-component-design`  | Writing custom-element component design records    |
+| `write-react-component-design` | Writing React component design records             |
+| `review-html-component-design` | Reviewing proposed custom-element designs           |
+| `review-react-component-design`| Reviewing proposed React component designs           |
+| `implement-accessible-ui`| Implementing accessible interaction                     |
+| `review-accessibility`   | Auditing accessibility                                  |
+| `write-docs`             | Writing guides, READMEs, and JSDoc                      |
+| `review-docs`            | Reviewing documentation                                 |
+| `write-api-reference`    | Building generated component or utility references      |
+| `create-spf-behavior`    | Creating one SPF behavior                               |
+| `change-spf-behavior`    | Updating, refactoring, splitting, or merging a behavior |
+| `document-spf-feature`   | Maintaining an SPF feature registry entry               |
+| `document-spf-use-case`  | Maintaining an SPF use-case composition                 |
+| `implement-spf-feature`  | Implementing an SPF feature                             |
+| `implement-spf-use-case` | Implementing an SPF use-case composition                |
+
+### Maintaining AI Docs
+
+When your changes introduce new patterns:
+
+- **Repo-wide recurring facts** → Update the nearest `AGENTS.md`
+- **Repeatable domain workflows** → Update the relevant skill under `.agents/skills/`
+- **Mechanically enforceable rules** → Update code, tests, lint, hooks, or `check:workspace`
+
+## Design Docs and RFCs
+
+We use two types of design documents:
+
+**Design Docs** (`internal/design/`) — Compact records of architecture or feature rationale that cannot be inferred from code and tests. Create one only when a maintainer explicitly requests it. See [`internal/design/README.md`](./internal/design/README.md).
+
+**RFCs** (`rfc/`) — Proposals needing buy-in from others. Write one when the decision affects multiple areas, changes shared API surface, or is hard to reverse. See [`rfc/README.md`](./rfc/README.md).
+
+**Rule of thumb:** If you need someone else's approval, explicitly request an RFC. If you intentionally want durable rationale for a decision you own, explicitly request a Design Doc or decision record.
+
+**Skip both for:** Bug fixes, small contained features, implementation details.
+
+## Creating a Pull Request
+
+By submitting a pull request, you agree that your contribution is provided under the
+[Apache 2.0 License](./LICENSE) and may be included in future releases. No contributor license agreement (CLA) has ever been required for contributions to Video.js. See the [Developer's Certificate of Origin 1.1](#developers-certificate-of-origin-11).
+
+### Step 1: Verify
+
+Whether you're adding something new, making something better, or fixing a bug, you'll first want to search the [GitHub issues](https://github.com/videojs/video.js/issues) to make sure you're aware of any previous discussion or work. If an unclaimed issue exists, claim it via a comment. If no issue exists for your change, [submit a new issue][vjs-issue-choose].
+
+### Step 2: Update remote
+
+Before starting work, you want to update your local repository to have all the latest changes from `upstream/main`.
+
+```sh
+git fetch upstream
+git checkout main
+git pull upstream main
+```
+
+> [!NOTE]
+> If `git pull upstream main` fails, this means either you've committed changes to your local clone of `main` or there was a (rare) change in `upstream/main`'s commit history. In either case, if you simply want to base your local clone off of the latest in `upstream/main`, you can simply run: `git checkout -B main upstream/main` (assuming you've already `fetch`ed). For more on `git checkout -B`, check out the [git docs][git-docs].
+
+[git-docs]: https://git-scm.com/docs/git-checkout#Documentation/git-checkout.txt-gitcheckout-b-Bnew-branchstart-point
+
+### Step 3: Branch
+
+You want to do your work in a separate branch. In general, you want to make sure the branch is based off of the latest in `upstream/main`.
 
 ```sh
 git checkout -b my-branch
 ```
 
-#### Step 4: Commit
+One helpful naming convention approximates [conventional commits][conventional-commit-style], e.g.:
 
-Commit changes as you go. Write thorough descriptions of your changes in your commit messages.
-For more information see our [conventional changelog guidelines for video.js](https://github.com/videojs/conventional-changelog-videojs/blob/main/convention.md)
-Follow these guidelines:
+- `fix/some-issue`
+- `feat/my-media-store-feature`
+- `docs/site-docs-for-x`
+- `chore/repo-cleanup-task`
 
-1. The first line should be less than 50 characters and contain a short description of the commit.
-1. The body should contain a more detailed description. It can contain things like reasoning for the change and specifics of what changed.
-1. A footer can be added if this fixes a particular issue on GitHub.
+### Step 4: Commit
 
-```sh
-git add src/js/player.js
-git commit
-```
+We follow **[conventional commits semantics][conventional-commit-style]** to enable automated releases.
 
-An example of the first line of a commit message: `fix: changed the footer to correctly display foo`
+Examples:
 
-In the body of the commit message, we can talk about why we made the change. What the change entails.
-Any testing considerations or things to think about when looking at the commit. For Example:
+- `feat(core): add volume smoothing hook`
+- `fix(react): correct prop mapping for picture-in-picture`
+- `chore(root): update linting`
 
-```txt
-fix: one line commit explanation
+> [!TIP]
+> Run `git log` (or `git log --oneline`) to check recent examples before committing.
 
-In the body of the commit message, we can talk about why we made the change. What the change entails.
-
-Any testing considerations or things to think about when looking at the commit.
-
-Fixes #123. The footer can contain Fixes messages.
-```
-
-> Make sure that git knows your name and email:
->
-> ```sh
-> git config --global user.name "Random User"
-> git config --global user.email "random.user@example.com"
-> ```
-
-#### Step 5: Test
+### Step 5: Test
 
 Any code change should come with corresponding test changes. Especially bug fixes.
 Tests attached to bug fixes should fail before the change and succeed with it.
 
 ```sh
-npm test
+pnpm test
 ```
 
-See [Running tests](#running-tests) for more information.
+See [Testing](#-testing) for more information.
 
-#### Step 6: Push
+### Step 6: Review Documentation
+
+If your changes introduced new patterns or conventions, check if documentation needs updates:
+
+- **Site docs** — User-facing documentation in `site/`
+- **AI docs** — See [Maintaining AI Docs](#maintaining-ai-docs)
+
+### Step 7: Push
+
+When ready, push your branch up to your fork (or upstream if you are a core contributor):
 
 ```sh
-git push origin my-branch
+git push --set-upstream origin fix/my-issue
 ```
 
-Then go to the [repo page](https://github.com/videojs/video.js) and click the "Pull Request" button and fill out the [pull request template](/.github/PULL_REQUEST_TEMPLATE.md)
+Then, open a PR via the green **“Compare & Pull Request”** button. In the description, make sure
+you thoroughly describe your changes and [link related issues or discussions][link-pr-issue].
 
-### Code Style Guide
+- Keep PRs focused and small when possible.
+- Give reviewers time to provide feedback.
+- Even if a PR isn’t merged, your work helps shape the direction of Video.js 10 ❤️
 
-Our javascript is linted using [videojs-standard][linter].
+[link-pr-issue]: https://docs.github.com/en/issues/tracking-your-work-with-issues/using-issues/linking-a-pull-request-to-an-issue#linking-a-pull-request-to-an-issue-using-a-keyword
 
-## [Developer's Certificate of Origin 1.1](https://github.com/nodejs/node/blob/main/CONTRIBUTING.md#developers-certificate-of-origin-11)
+### Developer's Certificate of Origin 1.1
 
 By making a contribution to this project, I certify that:
 
-* (a) The contribution was created in whole or in part by me and I
+- (a) The contribution was created in whole or in part by me and I
   have the right to submit it under the open source license
   indicated in the file; or
 
-* (b) The contribution is based upon previous work that, to the best
+- (b) The contribution is based upon previous work that, to the best
   of my knowledge, is covered under an appropriate open source
   license and I have the right under that license to submit that
   work with modifications, whether created in whole or in part
@@ -304,24 +471,25 @@ By making a contribution to this project, I certify that:
   permitted to submit under a different license), as indicated
   in the file; or
 
-* (c) The contribution was provided directly to me by some other
+- (c) The contribution was provided directly to me by some other
   person who certified (a), (b) or (c) and I have not modified
   it.
 
-* (d) I understand and agree that this project and the contribution
+- (d) I understand and agree that this project and the contribution
   are public and that a record of the contribution (including all
   personal information I submit with it, including my sign-off) is
   maintained indefinitely and may be redistributed consistent with
   this project or the open source license(s) involved.
 
-## Doc Credit
+## Community
 
-This doc was inspired by some great contribution guide examples including [contribute.md template](https://github.com/contribute-md/contribute-md-template),
-[grunt](https://github.com/gruntjs/grunt/wiki/Contributing),
-[html5 boilerplate](https://github.com/h5bp/html5-boilerplate/blob/master/CONTRIBUTING.md),
-[jquery](https://github.com/jquery/jquery/blob/master/CONTRIBUTING.md),
-and [node.js](https://github.com/nodejs/node/blob/master/CONTRIBUTING.md).
+To discuss larger ideas or prototypes, or to help out with ongoing discussions, open a thread in:
 
-[issue template]: /.github/ISSUE_TEMPLATE.md
+- [Discord][vjs-discord]
+- [GitHub Discussions][vjs-gh-discussions]
 
-[linter]: https://github.com/videojs/standard
+[vjs-gh]: https://github.com/videojs/video.js
+[vjs-issue-choose]: https://github.com/videojs/video.js/issues/new/choose
+[vjs-gh-discussions]: https://github.com/videojs/video.js/discussions
+[vjs-discord]: https://discord.gg/JBqHh485uF
+[conventional-commit-style]: https://www.conventionalcommits.org/en/v1.0.0/#summary

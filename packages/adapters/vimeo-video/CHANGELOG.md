@@ -1,0 +1,178 @@
+# Changelog
+
+## [10.4.0](https://github.com/videojs/video.js/compare/@videojs/vimeo-video@10.3.0...@videojs/vimeo-video@10.4.0) (2026-11-13)
+
+
+### Bug Fixes
+
+* **media:** recognize empty placeholders from another package copy ([#9667](https://github.com/videojs/video.js/issues/9667)) ([2c88e68](https://github.com/videojs/video.js/commit/2c88e684c8ecd2efe5aa67905daf1b1bc4dbb232))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @videojs/media bumped to 10.4.0
+    * @videojs/utils bumped to 10.4.0
+
+## [10.3.0](https://github.com/videojs/video.js/compare/@videojs/vimeo-video@10.2.0...@videojs/vimeo-video@10.3.0) (2026-11-03)
+
+
+### Features
+
+* **core:** show a pending autoplay as starting playback ([#9609](https://github.com/videojs/video.js/issues/9609)) ([6f56667](https://github.com/videojs/video.js/commit/6f566672ffd095301f9bcef9ecccdbdc1ebe536f))
+* **mux-data:** report framework and engine in the player software name ([#9577](https://github.com/videojs/video.js/issues/9577)) ([d84b573](https://github.com/videojs/video.js/commit/d84b573df447824aded5590b255bcc70e372472a))
+* **packages:** configure playback rates on the player ([#9533](https://github.com/videojs/video.js/issues/9533)) ([bd4e8bf](https://github.com/videojs/video.js/commit/bd4e8bf9ee82470d1641f0e093ae61fc63893eb3))
+
+
+### Bug Fixes
+
+* **packages:** fill the buffered bar for embed adapters ([#9679](https://github.com/videojs/video.js/issues/9679)) ([2abaaef](https://github.com/videojs/video.js/commit/2abaaef6cb6970e8ab572dc11731b0fa92afe087))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @videojs/media bumped to 10.3.0
+    * @videojs/utils bumped to 10.3.0
+
+## [10.2.0](https://github.com/videojs/video.js/compare/@videojs/vimeo-video@10.1.0...@videojs/vimeo-video@10.2.0) (2026-10-22)
+
+
+### Miscellaneous Chores
+
+* **@videojs/vimeo-video:** Synchronize videojs versions
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @videojs/media bumped to 10.2.0
+    * @videojs/utils bumped to 10.2.0
+
+## [10.1.0](https://github.com/videojs/video.js/compare/@videojs/vimeo-video@10.0.1...@videojs/vimeo-video@10.1.0) (2026-10-12)
+
+
+### Miscellaneous Chores
+
+* **@videojs/vimeo-video:** Synchronize videojs versions
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @videojs/media bumped to 10.1.0
+    * @videojs/utils bumped to 10.1.0
+
+## [10.0.1](https://github.com/videojs/v10/compare/@videojs/vimeo-video@10.0.0...@videojs/vimeo-video@10.0.1) (2026-10-02)
+
+
+### Miscellaneous Chores
+
+* **@videojs/vimeo-video:** Synchronize videojs versions
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @videojs/media bumped to 10.0.1
+    * @videojs/utils bumped to 10.0.1
+
+## [10.0.0](https://github.com/videojs/v10/compare/@videojs/vimeo-video@10.0.0-rc.5...@videojs/vimeo-video@10.0.0) (2026-10-01)
+
+
+### Miscellaneous Chores
+
+* **@videojs/vimeo-video:** Synchronize videojs versions
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @videojs/media bumped to 10.0.0
+    * @videojs/utils bumped to 10.0.0
+
+## [10.0.0-rc.5](https://github.com/videojs/v10/compare/@videojs/vimeo-video@10.0.0-rc.4...@videojs/vimeo-video@10.0.0-rc.5) (2026-10-01)
+
+
+### Features
+
+* **media:** add resolveAdapterType and resolveMimeType ([#3024](https://github.com/videojs/v10/issues/3024)) ([a77010c](https://github.com/videojs/v10/commit/a77010c77ff4971a9f7f1c43d5c24c20ee67d505))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @videojs/media bumped to 10.0.0-rc.5
+    * @videojs/utils bumped to 10.0.0-rc.5
+
+## [10.0.0-rc.4](https://github.com/videojs/v10/compare/@videojs/vimeo-video@10.0.0-rc.3...@videojs/vimeo-video@10.0.0-rc.4) (2026-09-26)
+
+
+### Miscellaneous Chores
+
+* **@videojs/vimeo-video:** Synchronize videojs versions
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @videojs/media bumped to 10.0.0-rc.4
+    * @videojs/utils bumped to 10.0.0-rc.4
+
+## [10.0.0-rc.3](https://github.com/videojs/v10/compare/@videojs/vimeo-video@10.0.0-rc.2...@videojs/vimeo-video@10.0.0-rc.3) (2026-09-25)
+
+
+### Features
+
+* **installation:** add versioned agent instructions ([#2948](https://github.com/videojs/v10/issues/2948)) ([a602f22](https://github.com/videojs/v10/commit/a602f220aedf9c2800983daade6ca298ada007ab))
+
+
+### Performance Improvements
+
+* **site:** faster docs dev server start ([#2698](https://github.com/videojs/v10/issues/2698)) ([33d3887](https://github.com/videojs/v10/commit/33d38873ed5337a5695eaa426a5ebfbea61356d2))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @videojs/media bumped to 10.0.0-rc.3
+    * @videojs/utils bumped to 10.0.0-rc.3
+
+## [10.0.0-rc.2](https://github.com/videojs/v10/compare/@videojs/vimeo-video@10.0.0-rc.1...@videojs/vimeo-video@10.0.0-rc.2) (2026-09-09)
+
+
+### Miscellaneous Chores
+
+* **@videojs/vimeo-video:** Synchronize videojs versions
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @videojs/media bumped to 10.0.0-rc.2
+    * @videojs/utils bumped to 10.0.0-rc.2
+
+## [10.0.0-rc.1](https://github.com/videojs/v10/compare/@videojs/vimeo-video@10.0.0-beta.32...@videojs/vimeo-video@10.0.0-rc.1) (2026-09-08)
+
+
+### Miscellaneous Chores
+
+* **@videojs/vimeo-video:** Synchronize videojs versions
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @videojs/media bumped to 10.0.0-rc.1
+    * @videojs/utils bumped to 10.0.0-rc.1
